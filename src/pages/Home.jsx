@@ -2,53 +2,88 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  return (
-    <div className="container page-fade-in">
-      {/* Professional Hero Section */}
-      <section className="hero-banner">
-        <div className="settings-wrapper" style={{ padding: '60px 20px' }}>
-          <span className="badge-primary">Team 9 Management System</span>
-          <h1 className="hero-title">
-            Streamline Your <span className="text-gradient">Team Workflow</span>
-          </h1>
-          <p className="hero-subtitle">
-            A high-performance directory solution designed for modern organizations. 
-            Manage users, monitor status, and customize your workspace environment.
-          </p>
-          <div className="hero-actions">
-            <Link to="/users" className="main-btn">Open Directory</Link>
-            <Link to="/settings" className="secondary-btn">System Themes</Link>
-          </div>
-        </div>
-      </section>
+  // Helper to read cookies
+  const getCookie = (name) => {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+  };
 
-      {/* Enterprise Feature Grid */}
-      <div className="features-grid">
-        <div className="feature-item">
-          <div className="feature-icon">📊</div>
-          <h3>Real-time Sync</h3>
-          <p>Integrated with Reqres API for seamless data management and live updates.</p>
-        </div>
-        <div className="feature-item">
-          <div className="feature-icon">🎨</div>
-          <h3>Custom Themes</h3>
-          <p>Switch between 8 professional color palettes that sync across the entire app.</p>
-        </div>
-        <div className="feature-item">
-          <div className="feature-icon">🛡️</div>
-          <h3>Local Persistence</h3>
-          <p>Your team members and preferences are saved locally using advanced browser storage.</p>
-        </div>
+  const userName = getCookie("name") || "Guest";
+
+  return (
+    <div style={styles.container}>
+      {/* Hero Section */}
+      <header style={styles.hero}>
+        <h1 style={styles.welcome}>Welcome Back, {userName}!</h1>
+        <p style={styles.subtitle}>Manage your users, settings, and profile all in one professional dashboard.</p>
+      </header>
+
+      {/* Action Cards */}
+      <div style={styles.grid}>
+        <Link to="/users" style={styles.card}>
+          <div style={styles.icon}>👥</div>
+          <h3>User Management</h3>
+          <p>View and manage all registered users in the system.</p>
+        </Link>
+
+        <Link to="/settings" style={styles.card}>
+          <div style={styles.icon}>🎨</div>
+          <h3>Theme Settings</h3>
+          <p>Personalize your experience with 10 unique themes.</p>
+        </Link>
+
+        <Link to="/profile" style={styles.card}>
+          <div style={styles.icon}>👤</div>
+          <h3>Your Profile</h3>
+          <p>Check your Google account details and access tokens.</p>
+        </Link>
       </div>
 
-      <footer className="home-footer">
-        <div style={{ opacity: 0.6, fontSize: '0.9rem' }}>
-          <p>© 2026 Team 9 Project. All rights reserved.</p>
-          <p>Version 1.0.4 | Secure Enterprise Solution</p>
+      {/* Status Bar */}
+      <footer style={styles.statusFooter}>
+        <div style={styles.statusItem}>
+          <span style={styles.dot}></span> System Online
+        </div>
+        <div style={styles.statusItem}>
+          Session expires in: <strong>2 Hours</strong>
         </div>
       </footer>
     </div>
   );
+};
+
+const styles = {
+  container: { padding: '40px', maxWidth: '1200px', margin: '0 auto' },
+  hero: { textAlign: 'center', marginBottom: '50px' },
+  welcome: { fontSize: '2.5rem', marginBottom: '10px' },
+  subtitle: { color: '#888', fontSize: '1.1rem' },
+  grid: { 
+    display: 'grid', 
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+    gap: '25px',
+    marginBottom: '50px' 
+  },
+  card: {
+    padding: '30px',
+    background: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: '15px',
+    textDecoration: 'none',
+    color: 'inherit',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    transition: 'transform 0.2s, border-color 0.2s',
+    textAlign: 'center'
+  },
+  icon: { fontSize: '3rem', marginBottom: '15px' },
+  statusFooter: { 
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    padding: '20px', 
+    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+    fontSize: '0.9rem',
+    color: '#666'
+  },
+  statusItem: { display: 'flex', alignItems: 'center', gap: '8px' },
+  dot: { height: '10px', width: '10px', backgroundColor: '#4caf50', borderRadius: '50%' }
 };
 
 export default Home;
